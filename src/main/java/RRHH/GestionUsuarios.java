@@ -6,9 +6,11 @@ import java.util.stream.Collectors;
 
 public class GestionUsuarios {
     private List<Usuario> usuarios;
+    private String ultimoError;
 
     public GestionUsuarios() {
         this.usuarios = new ArrayList<>();
+        this.ultimoError = null;
     }
 
     public void crearUsuario(Usuario nuevoUsuario) {
@@ -54,4 +56,22 @@ public class GestionUsuarios {
     public List<Usuario> getUsuarios() {
         return this.usuarios;
     }
+
+    public boolean cambiarContraseña(int userID, String nuevaPassword) {
+        Usuario usuario = obtenerUsuarioPorId(userID);
+        if (usuario != null) {
+            usuario.cambiarContraseña(nuevaPassword);
+            this.ultimoError = null;
+            return true;
+        } else {
+            this.ultimoError = "Error: No se encontró usuario con ID " + userID + " para cambiar la contraseña.";
+            System.out.println(this.ultimoError);
+            return false;
+        }
+    }
+        public String getUltimoError() {
+            return ultimoError;
+        }
+
+
 }
